@@ -1,0 +1,17 @@
+def create_features(df):
+    df = df.sort_values('date')
+
+    # Lag features
+    df['lag_1'] = df['sales'].shift(1)
+    df['lag_7'] = df['sales'].shift(7)
+
+    # Rolling features
+    df['rolling_mean'] = df['sales'].rolling(7).mean()
+
+    # Date features
+    df['day'] = df['date'].dt.dayofweek
+
+    # Drop missing values created by shifting
+    df = df.dropna()
+
+    return df
